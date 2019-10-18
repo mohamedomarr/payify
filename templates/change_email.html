@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change your Email
+{% endblock %}
+
+{% block name %}
+        {{ name[0]["first"] }} {{ name[0]["last"] }}
+{% endblock %}
+
+{% block main %}
+<form action="/settings/email" method="POST" class="needs-validation" novalidate>
+    <div class="container form">
+        <h1 class="h3 mb-3 font-weight-normal">Update Your Email</h1>
+        <div class="form-group" style="text-align: left;">
+            <label>New Email Address</label>
+            <input type="email" class="form-control" name="email" placeholder="{{ name[0]['email'] }}" autocomplete="off" autofocus required>
+            <div class="invalid-feedback">
+                Please Provide a Valid Email Address
+            </div>
+        </div>
+        <div class="form-group" style="text-align: left;">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password" placeholder="Type Your Password" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Please Type Your Password
+            </div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Save</button>
+    </div>
+</form>
+{% endblock %}

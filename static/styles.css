@@ -1,0 +1,171 @@
+/* main */
+main .form-control{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: 100%;
+}
+main{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+main img{
+    /* constrain images on small screens */
+    max-width: 100%;
+}
+
+/* navbar */
+nav .navbar-brand{
+    /* size for brand */
+    font-size: xx-large;
+}
+
+/* colors for brand */
+.dblue{
+    color: #012169;
+}
+.lblue{
+    color: #009CDE;
+}
+
+/* footer */
+footer{
+    padding: 0.75rem;
+    color: #999;
+    text-align: center;
+    border-top: .05rem solid #e5e5e5;
+    font-size: 1rem;
+}
+#page-container{
+  position: relative;
+  min-height: 100vh;
+}
+#content-wrap{
+  padding-bottom: 3rem;
+}
+#footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3rem;
+}
+.octicon{
+    position: relative;
+    top: 3px;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* container for forms */
+.form{
+    /* override Bootstrap's 100% width for form controls */
+    width: 17rem;
+    padding: 0;
+}
+
+#home{
+    height: auto;
+    width: 100%;
+    background-position: center;
+    background-image: url("bank.jpg");
+    background-size: cover;
+}
+#homenav{
+    background-color: RGBA(225,225,225,0.4);
+}
+#homenav a{
+    color: white;
+}
+
+#home .btn{
+    background-color: #009CDE;
+}
+
+
+.content_set .content-box{
+    margin: .5rem;
+    background-color: #ffffff;
+    padding: 12px 24px;
+}
+
+.p-3{
+    padding: 1.25rem!important;
+}
+
+.header{
+    text-align: left;
+    font-size: 24px;
+    padding: 15px 20px;
+    margin: 0;
+}
+.details{
+    padding: 7.5px 15px;
+}
+
+.payment_header{
+    text-align: left;
+    line-height: 30px;
+    background-color: #f5f7fa;
+    margin-top: 15px;
+}
+
+.octicon-gear{
+    font-size: 2rem;
+}
+
+#nav_gear{
+    font-size: 1.5rem;
+}
+
+.section_set{
+    padding: 25px 15px;
+}
+
+.set_el{
+    padding: 0;
+}
+
+#box{
+    padding: 30px 25px 0px 25px;
+}
+
+.header_Settings{
+    text-align: left;
+    font-size: 22px;
+    padding-bottom: 30px;
+}
+
+.loginSignUpSeparator {
+    border-top: 1px solid #cbd2d6;
+    position: relative;
+    margin: 25px 0 10px;
+    text-align:center
+}
+
+.loginSignUpSeparator .textInSeparator {
+    background-color: #fff;
+    padding: 0 .5em;
+    position: relative;
+    color: #6c7378;
+    top:-.7em
+}
+
+.form-control.is-valid, .was-validated .form-control:valid {
+    border-color: #28a745;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center right calc(.375em + .1875rem);
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}
+
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center right calc(.375em + .1875rem);
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}

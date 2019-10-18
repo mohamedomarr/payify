@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block name %}
+        {{ name[0]["first"] }} {{ name[0]["last"] }}
+{% endblock %}
+
+{% block main %}
+<h1 class="mb-3 lblue">Settings <span class="octicon octicon-gear"></span></h1>
+<div class="row justify-content-center">
+    <div id="box" class="col-md-8 border rounded">
+        <!-- header -->
+        <div class="header_Settings display-1 border-bottom">Log in and Security</div>
+
+        <!-- Name -->
+        <div id="name" class="row content-box section_set border-bottom">
+            <div class="col-md-4 set_el" style="text-align: left;">
+                <b>Name</b>
+            </div>
+            <div class="col-md-6 set_el" style="text-transform: capitalize; text-align: left;">
+                {{ name[0]["first"] }} {{ name[0]["last"] }}
+            </div>
+            <div class="col-md-2 set_el lblue" style="text-align: right;">
+                <a href="/settings/name">Update</a>
+            </div>
+        </div>
+
+        <!-- email -->
+        <div id="email" class="row content-box section_set border-bottom">
+            <div class="col-md-4 set_el" style="text-align: left;">
+                <b>Email</b>
+            </div>
+            <div class="col-md-6 set_el" style="text-align: left;">
+                {{ name[0]["email"] }}
+            </div>
+            <div class="col-md-2 set_el lblue" style="text-align: right;">
+                <a href="/settings/email">Update</a>
+            </div>
+        </div>
+
+        <!-- password -->
+        <div id="password" class="row content-box section_set ">
+            <div class="col-md-4 set_el" style="text-align: left;">
+                <b>Password</b>
+            </div>
+            <div class="col-md-6 set_el" style="text-align: left;">
+                • • • • • • • • • •
+            </div>
+            <div class="col-md-2 set_el lblue" style="text-align: right;">
+                <a href="/settings/password">Update</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block main %}
+<form action="/signup" method="post" class="needs-validation" novalidate>
+    <div class="container form">
+        <h1 class="h3 mb-3 font-weight-normal">Create an Account</h1>
+        <div class="form-group">
+            <input type="text" class="form-control" name="first_name" placeholder="First Name" autocomplete="off" autofocus required>
+            <div class="invalid-feedback">
+                Please Provide a Vaild Name
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="last_name" placeholder="Last Name" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Please Provide a Vaild Name
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email Address" autocomplete="off" required>
+            <div class="invalid-feedback">
+                Please Provide a Valid Email Address
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Create Your Password" onkeyup='check();' autocomplete="off" required>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name="confrim_password" id="confrim_password" placeholder="Confirm Your Password" onkeyup='check();' autocomplete="off" required>
+            <div><span id='message'></span></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+    </div>
+</form>
+{% endblock %}

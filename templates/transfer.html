@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Send Money
+{% endblock %}
+
+{% block name %}
+        {{ user[0]["first"] }} {{ user[0]["last"] }}
+{% endblock %}
+
+{% block main %}
+<form action="/transfer" method="post" class="needs-validation" novalidate>
+    <h2 class="mb-3 font-weight-normal"><span class="lblue">Transfer</span> <span class="lblue">Money</span> <span style="color: #FFc30b;">$</span></h2>
+        <div class="container form">
+            <div class="form-group">
+                <p class="mb-2 text-left">Send payment to</p>
+                <input type='email' class='form-control' name="email" placeholder='Email Adress' autocomplete="off" id="send_to_mail" onkeyup='content();' autofocus required>
+                <div class="invalid-feedback">
+                    Please Provide Valid Email Address
+                </div>
+            </div>
+            <div class="form-group">
+                <p class="mb-2 text-left">Amount You'll Send</p>
+                <input type="number" min="1" step="0.01" class="form-control" name="cash" placeholder="0.00" autocomplete="off" id="send_to_amount" onkeyup='content();' required>
+                <div class="invalid-feedback">
+                    Please Enter a Valid Amount of money
+                </div>
+            </div>
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" type="button">Send</button>
+            <small class="form-text text-muted">
+                <i>The fee amount is 1% per transaction and it cuts from the receiver's total amount.</i>
+            </small>
+        </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure to send <span id="modal_amount"></span> USD to <span class="lblue" id="modal_mail"></span></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</form>
+{% endblock %}
