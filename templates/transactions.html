@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block name %}
-    {{ user[0]["first"] }} {{ user[0]["last"] }}
+    {{ user[0]["first_name"] }} {{ user[0]["last_name"] }}
 {% endblock %}
 
 {% block main %}
@@ -17,10 +17,10 @@
             <table class="table table-striped table-hover">
             <tbody>
                 {% for row in trans %}
-                    <tr class='clickable-row' data-href="payment?id=" data-name="{{ row.transid }}" >
-                        <td>{{ row["date"] }}</td>
-                        <td>Payment {{ row["type"] }} <span style="text-transform: capitalize;" class="lblue">{{ row["first"] }} {{ row["last"] }}</span></td>
-                        <td>{{ row["gross"] }}</td>
+                    <tr class='clickable-row' data-href="payment?id=" data-name="{{ row.transaction_id }}" >
+                        <td>{{ row["datetime"] }}</td>
+                        <td>Payment {{ row["transaction_type"] }} {{ 'to ' if row['transaction_type'] == 'sent' else 'from ' }}<span style="text-transform: capitalize;" class="lblue">{{ row["first_name"] }} {{ row["last_name"] }}</span></td>
+                        <td>{{ row["amount"] }} USD</td>
                     </tr>
                 {% endfor %}
             </tbody>

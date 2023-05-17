@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block name %}
-        {{ user[0]["first"] }} {{ user[0]["last"] }}
+        {{ user[0]["first_name"] }} {{ user[0]["last_name"] }}
 {% endblock %}
 
 {% block main %}
@@ -16,7 +16,11 @@
         <div style="text-align: left;" class="border rounded content-box">
             <h5 class="mb-3">Balance</h5>
             <h6 style="color: #8b8d90; font-weight: 300; font-size: 14px;">Available</h6>
-            <h2 style="font-weight: 400;">{{"%.2f"|format(user[0]['cash'])}} USD</h2>
+            <h2 style="font-weight: 400;">{{cash}}</h2>
+            <h6 style="color: #8b8d90; font-weight: 300; font-size: 14px;">Total Stocks Value</h6>
+            <h2 style="font-weight: 400;">{{stock_value}}</h2>
+            <h6 style="color: #8b8d90; font-weight: 300; font-size: 14px;">Total Assets</h6>
+            <h2 style="font-weight: 400;">{{total}}</h2>
             <a href="transfer" style="color: #0070ba; font-weight: 400; font-size: 13px;">Transfer Money</a>
         </div>
     </div>
@@ -29,10 +33,10 @@
 
             <tbody>
                 {% for row in trans[:5] %}
-                        <tr class='clickable-row' data-href="payment?id=" data-name="{{ row.transid }}">
-                            <td>{{ row["date"] }}</td>
-                            <td>Payment {{ row["type"] }} <span style="text-transform: capitalize;" class="lblue">{{ row["first"] }} {{ row["last"] }}</span></td>
-                            <td>{{ row["gross"] }}</td>
+                        <tr class='clickable-row' data-href="payment?id=" data-name="{{ row.transaction_id }}">
+                            <td>{{ row["datetime"] }}</td>
+                            <td>Payment {{ row["transaction_type"] }} {{ 'to ' if row['transaction_type'] == 'sent' else 'from ' }}<span style="text-transform: capitalize;" class="lblue">{{ row["first_name"] }} {{ row["last_name"] }}</span></td>
+                            <td>{{ row["amount"] }} USD</td>
                         </tr>
                 {% endfor %}
             </tbody>

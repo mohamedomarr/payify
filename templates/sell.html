@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <form action="/sell" method="post">
+
+        <!-- Select Box for Symbols -->
+        <div class="form-group">
+            <select autofocus name="symbol" class="form-control">
+                <option disabled selected>Symbol</option>
+                {% for row in rows %}
+                <option value="{{ row['stock_symbol'] }}">{{ row['stock_symbol'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- input number of shares -->
+        <div class="form-group">
+            <input name="shares" autocomplete="off" class="form-control" type="number" min="1" placeholder="Shares">
+        </div>
+
+        <button class="btn btn-primary" type="submit">Sell</button>
+    </form>
+{% endblock %}

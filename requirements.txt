@@ -1,0 +1,6 @@
+flask
+Flask-Session
+mysql-connector-python
+requests
+urllib3==1.26.6 
+mailtrap

@@ -21,6 +21,12 @@
             </div>
         </div>
         <div class="form-group">
+            <input type="date" name="date_of_birth" placeholder="Date of birth" class="form-control"required>
+            <div class="invalid-feedback">
+                Please Provide a Valid Date of birth, you have to be more than 18 years
+            </div>
+        </div>
+        <div class="form-group">
             <input type="email" class="form-control" name="email" placeholder="Email Address" autocomplete="off" required>
             <div class="invalid-feedback">
                 Please Provide a Valid Email Address
@@ -30,7 +36,7 @@
             <input type="password" class="form-control" name="password" id="password" placeholder="Create Your Password" onkeyup='check();' autocomplete="off" required>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" name="confrim_password" id="confrim_password" placeholder="Confirm Your Password" onkeyup='check();' autocomplete="off" required>
+            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Confirm Your Password" onkeyup='check();' autocomplete="off" required>
             <div><span id='message'></span></div>
         </div>
         <button class="btn btn-primary btn-block" type="submit">Sign Up</button>

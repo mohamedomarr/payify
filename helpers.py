@@ -1,13 +1,47 @@
-import os
-import requests
-import urllib.parse
-import re
+import requests, random, re
 import smtplib
-
 from email.message import EmailMessage
 from flask import redirect, render_template, request, session
 from functools import wraps
+import ssl, smtplib
 
+EMAIL_ADDRESS = 'PayifyPayments@gmail.com'
+EMAIL_PASSWORD = 'wlzptszrzwovzdod'
+
+def usd(value):
+    """Format value as USD."""
+    return f"${value:,.2f}"
+
+def lookup(symbol):
+    """Look up quote for symbol."""
+    # Contact API
+    data = {}
+    # Contact API
+    try:
+        api_key = "9BL5DZZI2ZNTT2BJ"
+        name_response = requests.get(f"https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords={symbol}&apikey={api_key}")
+        response = requests.get(f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}")
+    except:
+        data =  {
+            "name": symbol,
+            "symbol": symbol,
+            "price": random.randint(100,400)
+        }
+        return data
+    else:
+        name_response2 = name_response.json()
+        response2 = response.json()
+        try:
+          data =  {
+              "name": name_response2["bestMatches"][0]["2. name"],
+              "symbol": response2["Global Quote"]["01. symbol"],
+              "price": response2["Global Quote"]["02. open"],
+          }
+        except:
+              data =  {"name": symbol,"symbol": symbol.upper(),"price": random.randint(10,1000)}
+              return data
+        else:
+          return data
 
 def apology(message, code=400):
     """Render message as an apology to user."""
@@ -23,7 +57,6 @@ def apology(message, code=400):
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
 
-
 def login_required(f):
     """
     Decorate routes to require login.
@@ -37,10 +70,8 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
 # Make a regular email expression
 regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
-
 
 # for validating an Email
 def email_check(email):
@@ -53,18 +84,8 @@ def email_check(email):
     else:
         return False
 
-
-
-def reg_mail(toemail, name):   
-    EMAIL_ADDRESS = 'payifypayments@gmail.com'
-    EMAIL_PASSWORD = 'q23192322'
-
-    msg = EmailMessage()
-    msg['Subject'] = 'Registered!'
-    msg['From'] = "Payify <EMAIL_ADDRESS>"
-    msg['To'] = toemail
-
-    msg.add_alternative(f"""\
+def reg_mail(tomail, name):   
+    emailContent = f"""\
     <!DOCTYPE html>
 <html><head>
 </head>
@@ -151,7 +172,7 @@ def reg_mail(toemail, name):
                
             <tr>
                <td valign="middle" style="text-align:center;font-family:Roboto,OpenSans,Open Sans,Arial,sans-serif;background:#eee;color:#777; font-size:10px;font-weight:normal;line-height:14px;margin:0;padding:0 6px 0 6px;">
-                  © 2019 Payify a CS50 Final Project created By <a href="https://www.linkedin.com/in/msomar/">Mohamed Omar</a>, Egypt.<br>This email was sent to you because you created a Payify Account.</td>
+                  © 2023 Payify a CS50 Final Project created By <a href="https://www.linkedin.com/in/msomar/">Mohamed Omar</a>, Egypt.<br>This email was sent to you because you created a Payify Account.</td>
                </tr>
              </tbody></table>
             </td>
@@ -163,23 +184,20 @@ def reg_mail(toemail, name):
     </tr>
   </tbody></table>
 </body></html>
-    """, subtype='html')
-
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
-        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-        smtp.send_message(msg)
-        
-
-def trans_mail(tomail, details, trans):
-    EMAIL_ADDRESS = 'payifypayments@gmail.com'
-    EMAIL_PASSWORD = 'q23192322'
-
+    """
     msg = EmailMessage()
-    msg['Subject'] = trans['subject']
+    msg['Subject'] = "Registered Successfully!"
     msg['From'] = "Payify <EMAIL_ADDRESS>"
     msg['To'] = tomail
+    msg.add_alternative(emailContent, subtype='html')
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
+        smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+        smtp.send_message(msg)
+        print('Email sent successfully')
 
-    msg.add_alternative(f"""\
+def trans_mail(tomail, details, trans):
+    emailContent = f"""\
     <!DOCTYPE html>
 <html><head>
 </head>
@@ -198,7 +216,7 @@ def trans_mail(tomail, details, trans):
                
               <tr><td height="20"></td></tr>
                 
-              <tr><td style="color:#757575; font-size:17px;font-weight:normal;line-height:24px;margin:0;padding:0 25px 0 25px; font-family:Roboto,OpenSans,Open Sans,Arial,sans-serif;text-align:center;">{details['first']} {details['last']} {trans['header']} you ‪{trans['gross']} USD‬</td></tr>
+              <tr><td style="color:#757575; font-size:17px;font-weight:normal;line-height:24px;margin:0;padding:0 25px 0 25px; font-family:Roboto,OpenSans,Open Sans,Arial,sans-serif;text-align:center;">{details['first_name']} {details['last_name']} {trans['header']} you {trans['amount']} USD</td></tr>
               <tr><td height="30"></td></tr>
                
             </tbody></table>
@@ -214,12 +232,12 @@ def trans_mail(tomail, details, trans):
                     {trans['type']}
                   </b>
                     {trans['type2']}
-                      <span style="color: #009CDE;">{details['first']} {details['last']}</span>
+                      <span style="color: #009CDE;">{details['first_name']} {details['last_name']}</span>
                   </span>
                   
                   <!-- email and datetime -->
                   <div><b>Email:</b> {details['email']}</div>
-                  <div style="text-align: left;">{trans['date']} at {trans['time']}</div>
+                  <div style="text-align: left;">{trans['datetime']}</div>
                   </div></td></tr>
 
                  <tr><td height="30"></td></tr>
@@ -244,14 +262,14 @@ def trans_mail(tomail, details, trans):
                       <td valign="top" width="70%">
                       <table align="left" cellpadding="0" cellspacing="0" border="0">
                         <tbody>
-                          <tr><td valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#444444"><div style="display:block">Money {trans['type']}</div></td></tr>
+                          <tr><td valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#444444"><div style="display:block">Money {trans['transaction_type']}</div></td></tr>
                         </tbody></table></td>
                               
                         <!-- amount money recived -->
                         <td valign="top" width="30%" align="right">
                           <table align="right" cellpadding="0" cellspacing="0" border="0">
                             <tbody><tr> 
-                              <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">‪{trans['gross']}&nbsp;USD‬</td></tr>
+                              <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">{trans['amount']}&nbsp;USD</td></tr>
                             </tbody></table></td></tr>
                     </tbody>
                     </table>
@@ -271,7 +289,7 @@ def trans_mail(tomail, details, trans):
                                             <table align="right" cellpadding="0" cellspacing="0" border="0">
                                               <tbody><tr> 
                                                 <!-- fee amount -->
-                                                <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">‪{trans['fee']}&nbsp;USD‬</td>
+                                                <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">{trans['fee']}&nbsp;USD</td>
                                                  
                                               </tr>
                                             </tbody></table>
@@ -311,7 +329,7 @@ def trans_mail(tomail, details, trans):
                                                     <table align="right" cellpadding="0" cellspacing="0" border="0">
                                                       <tbody><tr> 
                                                         <!-- total amount -->
-                                                        <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">‪{trans['netcash']}&nbsp;USD‬</td>
+                                                        <td align="right" valign="top" style="font-family:Calibri,Trebuchet,Arial,sans serif;font-size:20px;line-height:22px;color:#333333">{trans['net_amount']}&nbsp;USD</td>
                                                          
                                                       </tr>
                                                     </tbody></table>
@@ -343,7 +361,7 @@ def trans_mail(tomail, details, trans):
                
             <tr>
                <td valign="middle" style="text-align:center;font-family:Roboto,OpenSans,Open Sans,Arial,sans-serif;background:#eee;color:#777; font-size:10px;font-weight:normal;line-height:14px;margin:0;padding:0 6px 0 6px;">
-                  © 2019 Payify a CS50 Final Project created By <a href="https://www.linkedin.com/in/msomar/">Mohamed Omar</a>, Egypt.</td>
+                  © 2023 Payify a CS50 Final Project created By <a href="https://www.linkedin.com/in/msomar/">Mohamed Omar</a>, Egypt.</td>
                </tr>
              </tbody></table>
             </td>
@@ -355,8 +373,14 @@ def trans_mail(tomail, details, trans):
     </tr>
   </tbody></table>
 </body></html>
-    """, subtype='html')
-
-    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+    """
+    msg = EmailMessage()
+    msg['Subject'] = "Registered Successfully!"
+    msg['From'] = "Payify <EMAIL_ADDRESS>"
+    msg['To'] = tomail
+    msg.add_alternative(emailContent, subtype='html')
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
         smtp.send_message(msg)
+        print('Email sent successfully')

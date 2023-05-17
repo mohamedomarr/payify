@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Shares</th>
+            <th>Total Price</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row["stock_symbol"] }}</td>
+            <td>{{ row["quantity"] }}</td>
+            <td>{{ "$%.2f"|format(row["purchase_price"]) }}</td>
+            <td>{{ row["datetime"] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
